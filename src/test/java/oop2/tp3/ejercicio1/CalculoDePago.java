@@ -8,6 +8,9 @@ import java.util.Iterator;
 import java.util.function.IntSupplier;
 import java.util.stream.IntStream;
 
+import oop2.tp3.ejercicio1.libros.Infantil;
+import oop2.tp3.ejercicio1.libros.NuevoLanzamiento;
+import oop2.tp3.ejercicio1.libros.Regular;
 import org.junit.jupiter.api.Test;
 
 public class CalculoDePago {
@@ -17,9 +20,9 @@ public class CalculoDePago {
 	}
 
 	CopiaLibro[] setupA(int nCopiasRegular, int nCopiasNuevo, int nCopiasInfantil) {
-		Libro libroRegular = new Libro("LibroRegular", Libro.REGULARES);
-		Libro libroNuevo = new Libro("LibroNuevo", Libro.NUEVO_LANZAMIENTO);
-		Libro libroInfantil = new Libro("LibroInfantil", Libro.INFANTILES);
+		Libro libroRegular = new Regular("LibroRegular");
+		Libro libroNuevo = new NuevoLanzamiento("LibroNuevo");
+		Libro libroInfantil = new Infantil("LibroInfantil");
 
 		ArrayList<CopiaLibro> copias = new ArrayList<>();
 
@@ -135,6 +138,6 @@ public class CalculoDePago {
 
 	@Test
 	void nombre() {
-		assertEquals("Nombre del libro", new Libro("Nombre del libro", 0).nombre());
+		assertEquals("Nombre del libro", new Regular("Nombre del libro").nombre());
 	}
 }

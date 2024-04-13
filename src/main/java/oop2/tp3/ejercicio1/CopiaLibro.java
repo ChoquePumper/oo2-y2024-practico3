@@ -10,4 +10,12 @@ public class CopiaLibro {
     public Libro libro() {
         return libro;
     }
+
+    public double calcularMonto(int diasAlquilados) {
+        return libro.monto(diasAlquilados);
+    }
+
+    public int calcularPuntos(int diasAlquilados) {
+        return libro.puntos(diasAlquilados);
+    }
 }

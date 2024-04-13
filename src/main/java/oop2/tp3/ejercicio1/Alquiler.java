@@ -16,4 +16,12 @@ public class Alquiler {
     public CopiaLibro copia() {
         return this.copia;
     }
+
+    public double monto() {
+        return copia.calcularMonto(diasAlquilados);
+    }
+
+    public int puntos() {
+        return copia.calcularPuntos(diasAlquilados);
+    }
 }
