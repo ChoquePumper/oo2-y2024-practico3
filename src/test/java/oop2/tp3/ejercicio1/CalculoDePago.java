@@ -3,9 +3,6 @@ package oop2.tp3.ejercicio1;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.function.IntSupplier;
 import java.util.stream.IntStream;
 
 import oop2.tp3.ejercicio1.libros.Infantil;
