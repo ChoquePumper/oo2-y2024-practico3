@@ -10,7 +10,7 @@ import oop2.tp3.ejercicio1.libros.NuevoLanzamiento;
 import oop2.tp3.ejercicio1.libros.Regular;
 import org.junit.jupiter.api.Test;
 
-public class CalculoDePago {
+class TestCalculoDePago {
 
     private static Iterable<Integer> rango(int n) {
         return () -> IntStream.range(0, n).iterator();
