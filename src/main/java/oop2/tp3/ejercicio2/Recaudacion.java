@@ -1,9 +1,5 @@
 package oop2.tp3.ejercicio2;
 
-import com.opencsv.CSVReader;
-
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.*;
 
 public class Recaudacion {
