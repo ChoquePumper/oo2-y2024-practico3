@@ -4,13 +4,56 @@ import com.opencsv.CSVReader;
 
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class Recaudacion {
+    private static final Set<String> camposRequeridos = Set.of(
+            "permalink", "company_name", "number_employees", "category", "city",
+            "state", "funded_date", "raised_amount", "raised_currency", "round");
+
+    private static class Registro {
+        Map<String, String> mapa;
+
+        Registro(Map<String, String> campos) {
+            this.mapa = Map.copyOf(campos);
+            if (!contieneTodosLosCampos())
+                throw new IllegalArgumentException("Faltan campos requeridos");
+        }
+
+        private boolean contieneTodosLosCampos() {
+            return this.mapa.keySet().containsAll(camposRequeridos);
+        }
+
+        Map<String, String> getMapa() {
+            return Map.copyOf(this.mapa);
+        }
+    }
+
+    private List<Registro> registros;
+
+    public Recaudacion(Fuente fuente) {
+        this.registros = new ArrayList<>();
+        for (var mapa : fuente)
+            registros.add(new Registro(mapa));
+    }
+
+    private List<Registro> filtrar(Map<String, String> options) {
+        return this.registros.stream().filter(registro -> {
+            for (String campo : options.keySet())
+                if (!Objects.equals(options.get(campo), registro.mapa.get(campo)))
+                    return false;
+            return true;
+        }).toList();
+    }
+
     public static List<Map<String, String>> where(Map<String, String> options)
+            throws IOException {
+        return new Recaudacion(new ArchivoCSV("src/main/resources/data.csv"))
+                .filtrar(options).stream()
+                .map(Registro::getMapa).toList();
+    }
+
+    public static List<Map<String, String>> whereViejo(Map<String, String> options)
             throws IOException {
         List<String[]> csvData = new ArrayList<String[]>();
         CSVReader reader = new CSVReader(new FileReader("src/main/resources/data.csv"));
