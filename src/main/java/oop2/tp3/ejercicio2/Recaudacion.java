@@ -46,10 +46,7 @@ public class Recaudacion {
         }).toList();
     }
 
-    public static List<Map<String, String>> where(Map<String, String> options)
-            throws IOException {
-        return new Recaudacion(new ArchivoCSV("src/main/resources/data.csv"))
-                .filtrar(options).stream()
-                .map(Registro::getMapa).toList();
+    public List<Map<String, String>> where(Map<String, String> options) {
+        return this.filtrar(options).stream().map(Registro::getMapa).toList();
     }
 }
