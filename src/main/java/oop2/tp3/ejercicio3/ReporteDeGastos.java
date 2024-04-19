@@ -65,4 +65,12 @@ public class ReporteDeGastos {
         String marcaExcesoComidas = gasto.marcaExcesoComidas ? "X" : " ";
         System.out.println(nombreGasto + "\t" + gasto.monto + "\t" + marcaExcesoComidas);
     }
+
+    public int verGastoTotal() {
+        return this.total;
+    }
+
+    public int verGastosDeComida() {
+        return this.gastosDeComida;
+    }
 }
