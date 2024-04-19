@@ -27,9 +27,9 @@ class ReporteTest {
 		var g1 = new Gasto();
 		g1.tipoGasto = TipoDeGasto.DESAYUNO;
 		g1.monto = 1000;
-		var reporte = new ReporteDeGastos();
+		var reporte = new ReporteDeGastos(List.of(g1));
 		String textoDelReporte = capturarTextoDeSysOut(() -> {
-					reporte.imprimir(List.of(g1));
+					reporte.imprimir();
 				}
 		).stripTrailing();
 
@@ -52,9 +52,9 @@ class ReporteTest {
 		var g1 = new Gasto();
 		g1.tipoGasto = TipoDeGasto.DESAYUNO;
 		g1.monto = 1001;    // <- Solo cambio el monto para que marque que está en exceso
-		var reporte = new ReporteDeGastos();
+		var reporte = new ReporteDeGastos(List.of(g1));
 		String textoDelReporte = capturarTextoDeSysOut(() -> {
-					reporte.imprimir(List.of(g1));
+					reporte.imprimir();
 				}
 		).stripTrailing();
 
