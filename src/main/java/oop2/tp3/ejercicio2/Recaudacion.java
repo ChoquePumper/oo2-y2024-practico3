@@ -1,88 +1,48 @@
 package oop2.tp3.ejercicio2;
 
-import com.opencsv.CSVReader;
-
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class Recaudacion {
-    public static List<Map<String, String>> where(Map<String, String> options)
-            throws IOException {
-        List<String[]> csvData = new ArrayList<String[]>();
-        CSVReader reader = new CSVReader(new FileReader("src/main/resources/data.csv"));
-        String[] row = null;
+    private static final Set<String> camposRequeridos = Set.of(
+            "permalink", "company_name", "number_employees", "category", "city",
+            "state", "funded_date", "raised_amount", "raised_currency", "round");
 
-        while ((row = reader.readNext()) != null) {
-            csvData.add(row);
+    private static class Registro {
+        Map<String, String> mapa;
+
+        Registro(Map<String, String> campos) {
+            this.mapa = Map.copyOf(campos);
+            if (!contieneTodosLosCampos())
+                throw new IllegalArgumentException("Faltan campos requeridos");
         }
 
-        reader.close();
-        csvData.remove(0);
-
-        if (options.containsKey("company_name")) {
-            List<String[]> results = new ArrayList<String[]>();
-
-            for (int i = 0; i < csvData.size(); i++) {
-                if (csvData.get(i)[1].equals(options.get("company_name"))) {
-                    results.add(csvData.get(i));
-                }
-            }
-            csvData = results;
+        private boolean contieneTodosLosCampos() {
+            return this.mapa.keySet().containsAll(camposRequeridos);
         }
 
-        if (options.containsKey("city")) {
-            List<String[]> results = new ArrayList<String[]>();
-
-            for (int i = 0; i < csvData.size(); i++) {
-                if (csvData.get(i)[4].equals(options.get("city"))) {
-                    results.add(csvData.get(i));
-                }
-            }
-            csvData = results;
+        Map<String, String> getMapa() {
+            return Map.copyOf(this.mapa);
         }
+    }
 
-        if (options.containsKey("state")) {
-            List<String[]> results = new ArrayList<String[]>();
+    private List<Registro> registros;
 
-            for (int i = 0; i < csvData.size(); i++) {
-                if (csvData.get(i)[5].equals(options.get("state"))) {
-                    results.add(csvData.get(i));
-                }
-            }
-            csvData = results;
-        }
+    public Recaudacion(Fuente fuente) {
+        this.registros = new ArrayList<>();
+        for (var mapa : fuente)
+            registros.add(new Registro(mapa));
+    }
 
-        if (options.containsKey("round")) {
-            List<String[]> results = new ArrayList<String[]>();
+    private List<Registro> filtrar(Map<String, String> options) {
+        return this.registros.stream().filter(registro -> {
+            for (String campo : options.keySet())
+                if (!Objects.equals(options.get(campo), registro.mapa.get(campo)))
+                    return false;
+            return true;
+        }).toList();
+    }
 
-            for (int i = 0; i < csvData.size(); i++) {
-                if (csvData.get(i)[9].equals(options.get("round"))) {
-                    results.add(csvData.get(i));
-                }
-            }
-            csvData = results;
-        }
-
-        List<Map<String, String>> output = new ArrayList<Map<String, String>>();
-
-        for (int i = 0; i < csvData.size(); i++) {
-            Map<String, String> mapped = new HashMap<String, String>();
-            mapped.put("permalink", csvData.get(i)[0]);
-            mapped.put("company_name", csvData.get(i)[1]);
-            mapped.put("number_employees", csvData.get(i)[2]);
-            mapped.put("category", csvData.get(i)[3]);
-            mapped.put("city", csvData.get(i)[4]);
-            mapped.put("state", csvData.get(i)[5]);
-            mapped.put("funded_date", csvData.get(i)[6]);
-            mapped.put("raised_amount", csvData.get(i)[7]);
-            mapped.put("raised_currency", csvData.get(i)[8]);
-            mapped.put("round", csvData.get(i)[9]);
-            output.add(mapped);
-        }
-        return output;
+    public List<Map<String, String>> where(Map<String, String> options) {
+        return this.filtrar(options).stream().map(Registro::getMapa).toList();
     }
 }

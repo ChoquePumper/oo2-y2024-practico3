@@ -1,51 +1,53 @@
 package oop2.tp3.ejercicio3;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
-enum TipoDeGasto {
-    CENA, DESAYUNO, ALQUILER_AUTO
-}
-
-class Gasto {
-    TipoDeGasto tipoGasto;
-    int monto;
-}
-
 public class ReporteDeGastos {
-    public void imprimir(List<Gasto> gastos) {
-        int total = 0;
-        int gastosDeComida = 0;
 
-        System.out.println("Expenses " + LocalDate.now());
+    private final List<Gasto> gastos;
+    private int total = 0, gastosDeComida = 0;
+    private final LocalDate fecha;
 
-        for (Gasto gasto : gastos) {
-            if (gasto.tipoGasto == TipoDeGasto.CENA || gasto.tipoGasto == TipoDeGasto.DESAYUNO) {
-                gastosDeComida += gasto.monto;
-            }
+    public ReporteDeGastos(List<Gasto> gastos) {
+        this.gastos = List.copyOf(gastos);
+        this.fecha = LocalDate.now();
+        calcular();
+    }
 
-            String nombreGasto = "";
-            switch (gasto.tipoGasto) {
-                case CENA:
-                    nombreGasto = "Cena";
-                    break;
-                case DESAYUNO:
-                    nombreGasto = "Desayuno";
-                    break;
-                case ALQUILER_AUTO:
-                    nombreGasto = "Alquiler de Autos";
-                    break;
-            }
+    private List<Gasto> soloComidas() {
+        List<Gasto> comidas = new ArrayList<>();
+        this.gastos.forEach(g -> g.soloComidas(comidas));
+        return comidas;
+    }
 
-            String marcaExcesoComidas = gasto.tipoGasto == TipoDeGasto.CENA && gasto.monto > 5000
-                    || gasto.tipoGasto == TipoDeGasto.DESAYUNO && gasto.monto > 1000 ? "X" : " ";
+    private int sumarMonto(List<Gasto> lista) {
+        return lista.stream().map(g -> g.getMonto()).reduce(Integer::sum).orElse(0);
+    }
 
-            System.out.println(nombreGasto + "\t" + gasto.monto + "\t" + marcaExcesoComidas);
+    private void calcular() {
+        total = sumarMonto(this.gastos);
+        gastosDeComida = sumarMonto(soloComidas());
+    }
 
-            total += gasto.monto;
-        }
-
+    public void imprimir() {
+        System.out.println("Expenses " + fecha);
+        for (Gasto gasto : gastos)
+            imprimirGasto(gasto);
         System.out.println("Gastos de comida: " + gastosDeComida);
         System.out.println("Total de gastos: " + total);
+    }
+
+    private void imprimirGasto(Gasto gasto) {
+        System.out.println(gasto);
+    }
+
+    public int verGastoTotal() {
+        return this.total;
+    }
+
+    public int verGastosDeComida() {
+        return this.gastosDeComida;
     }
 }
