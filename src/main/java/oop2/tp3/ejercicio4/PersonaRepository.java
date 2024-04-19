@@ -25,10 +25,6 @@ public class PersonaRepository {
 
             var personas = new ArrayList<Persona>();
 
-            if (rs.size() == 0) {
-                return null;
-            }
-
             for (Map<String, String> map : rs) {
                 personas.add(new Persona(map.get("nombre"), map.get("apellido")));
             }
@@ -37,7 +33,6 @@ public class PersonaRepository {
         });
 
     }
-
 
     /**
      * Dado un id, retorna:

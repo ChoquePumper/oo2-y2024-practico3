@@ -28,11 +28,6 @@ class ConsultaTest {
     }
 
     void assertarTamanoLista(List<?> lista, int size) {
-        // TODO: eliminar este bloque if tras factorizar
-        if (size == 0) {
-            assertNull(lista);
-            return;
-        }
         assertNotNull(lista);
         assertEquals(size, lista.size());
     }
