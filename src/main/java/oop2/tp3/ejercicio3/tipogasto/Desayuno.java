@@ -9,4 +9,9 @@ public class Desayuno extends GastoComida {
     boolean enExceso() {
         return getMonto() > 1000;
     }
+
+    @Override
+    protected String getNombre() {
+        return "Desayuno";
+    }
 }

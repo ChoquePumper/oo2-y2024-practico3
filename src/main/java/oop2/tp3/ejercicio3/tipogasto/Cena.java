@@ -9,4 +9,9 @@ public class Cena extends GastoComida {
     boolean enExceso() {
         return getMonto() > 5000;
     }
+
+    @Override
+    protected String getNombre() {
+        return "Cena";
+    }
 }
