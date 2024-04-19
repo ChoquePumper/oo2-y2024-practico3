@@ -2,7 +2,7 @@ package oop2.tp3.ejercicio4;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
 import java.util.Random;
@@ -46,8 +46,8 @@ class ConsultaTest {
 
     @Test
     void consultaPorIdDelMain() {
-        var persona = repo.buscarId(1L);
-        assertNotNull(persona);
+        var optPersona = repo.buscarId(1L);
+        Persona persona = optPersona.orElseThrow();
         assertEquals("José Laurenti", String.join(" ", persona.nombre(), persona.apellido()));
     }
 
@@ -79,12 +79,12 @@ class ConsultaTest {
     @Test
     void consultaPorId() {
         for (long id : new Long[] { 1L, 2L, 3L }) {
-            assertNotNull(repo.buscarId(id));
+            assertTrue(repo.buscarId(id).isPresent());
         }
 
         var idsNoExistentes = new Random().longs(4L, 999L).limit(10).iterator();
         for (long id : (Iterable<Long>) () -> idsNoExistentes) {
-            assertNull(repo.buscarId(id));
+            assertTrue(repo.buscarId(id).isEmpty());
         }
     }
 }

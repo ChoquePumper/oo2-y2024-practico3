@@ -17,9 +17,9 @@ public class Main {
             System.out.println(persona.nombre() + " " + persona.apellido());
         }
 
-        var persona = repo.buscarId(1L);
-        if (persona != null) {
+        var optPersona = repo.buscarId(1L);
+        optPersona.ifPresent((persona) -> {
             System.out.println(persona.nombre() + " " + persona.apellido());
-        }
+        });
     }
 }
