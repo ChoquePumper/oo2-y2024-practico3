@@ -10,22 +10,22 @@ class GastosTest {
 
     // TODO: Este método sera removido cuando termine de refactorizar el modelo.
     @Deprecated(forRemoval = true)
-    private Gasto nuevoGasto(int monto, TipoDeGasto tipo) {
+    private static Gasto nuevoGasto(int monto, TipoDeGasto tipo) {
         var g = new Gasto();
         g.tipoGasto = tipo;
         g.monto = monto;
         return g;
     }
 
-    private Gasto gastoDesayuno(int monto) {
+    static Gasto gastoDesayuno(int monto) {
         return nuevoGasto(monto, TipoDeGasto.DESAYUNO);
     }
 
-    private Gasto gastoCena(int monto) {
+    static Gasto gastoCena(int monto) {
         return nuevoGasto(monto, TipoDeGasto.CENA);
     }
 
-    private Gasto gastoAlquilerAuto(int monto) {
+    static Gasto gastoAlquilerAuto(int monto) {
         return nuevoGasto(monto, TipoDeGasto.ALQUILER_AUTO);
     }
 
