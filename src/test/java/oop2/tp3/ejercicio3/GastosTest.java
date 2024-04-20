@@ -12,15 +12,15 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class GastosTest {
 
-    private Gasto gastoDesayuno(int monto) {
+    static Gasto gastoDesayuno(int monto) {
         return new Desayuno(monto);
     }
 
-    private Gasto gastoCena(int monto) {
+	static Gasto gastoCena(int monto) {
         return new Cena(monto);
     }
 
-    private Gasto gastoAlquilerAuto(int monto) {
+	static Gasto gastoAlquilerAuto(int monto) {
         return new AlquilerAuto(monto);
     }
 
