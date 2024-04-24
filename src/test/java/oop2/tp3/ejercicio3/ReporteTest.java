@@ -2,8 +2,6 @@ package oop2.tp3.ejercicio3;
 
 import org.junit.jupiter.api.Test;
 
-import java.io.PrintStream;
-import java.io.ByteArrayOutputStream;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -13,24 +11,11 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class ReporteTest {
 
-	// TODO: eliminar este método después de refactorizar.
-	private String capturarTextoDeSysOut(Runnable runnable) {
-		final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
-		final PrintStream originalOut = System.out;
-		System.setOut(new PrintStream(outContent));
-		runnable.run();
-		System.setOut(originalOut);
-		return outContent.toString();
-	}
-
 	@Test
 	void delEjemplo() {
 		var g1 = gastoDesayuno(1000);
 		var reporte = new ReporteDeGastos(List.of(g1));
-		String textoDelReporte = capturarTextoDeSysOut(() -> {
-					reporte.imprimir();
-				}
-		).stripTrailing();
+		String textoDelReporte = reporte.generarInforme().stripTrailing();
 
 		String[] lineas = {
 				"'Expenses' uuuu-MM-dd", // Para DateTimeFormatter
@@ -50,10 +35,7 @@ class ReporteTest {
 	void conMarcaDeExceso() {
 		var g1 = gastoDesayuno(1001); // <- Solo cambio el monto para que marque que está en exceso
 		var reporte = new ReporteDeGastos(List.of(g1));
-		String textoDelReporte = capturarTextoDeSysOut(() -> {
-					reporte.imprimir();
-				}
-		).stripTrailing();
+		String textoDelReporte = reporte.generarInforme().stripTrailing();
 
 		String[] lineas = {
 				"'Expenses' uuuu-MM-dd", // Para DateTimeFormatter
@@ -77,10 +59,7 @@ class ReporteTest {
 				gastoAlquilerAuto(34800),
 		};
 		var reporte = new ReporteDeGastos(List.of(gastos));
-		String textoDelReporte = capturarTextoDeSysOut(() -> {
-					reporte.imprimir();
-				}
-		).stripTrailing();
+		String textoDelReporte = reporte.generarInforme().stripTrailing();
 
 		String[] lineas = {
 				"'Expenses' uuuu-MM-dd", // Para DateTimeFormatter
@@ -102,10 +81,7 @@ class ReporteTest {
 	void vacio() {
 		// Lista de gastos vacía.
 		var reporte = new ReporteDeGastos(List.of());
-		String textoDelReporte = capturarTextoDeSysOut(() -> {
-					reporte.imprimir();
-				}
-		).stripTrailing();
+		String textoDelReporte = reporte.generarInforme().stripTrailing();
 
 		String[] lineas = {
 				"'Expenses' uuuu-MM-dd", // Para DateTimeFormatter
