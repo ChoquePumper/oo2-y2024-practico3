@@ -32,15 +32,18 @@ public class ReporteDeGastos {
     }
 
     public void imprimir() {
-        System.out.println("Expenses " + fecha);
-        for (Gasto gasto : gastos)
-            imprimirGasto(gasto);
-        System.out.println("Gastos de comida: " + gastosDeComida);
-        System.out.println("Total de gastos: " + total);
+        System.out.println(generarInforme());
     }
 
-    private void imprimirGasto(Gasto gasto) {
-        System.out.println(gasto);
+    public String generarInforme() {
+        final String EOL = "\n"; // End of line
+        StringBuilder sb = new StringBuilder();
+        sb.append("Expenses ").append(fecha).append(EOL);
+        for (Gasto gasto : gastos)
+            sb.append(gasto).append(EOL);
+        sb.append("Gastos de comida: ").append(gastosDeComida).append(EOL);
+        sb.append("Total de gastos: ").append(total);
+        return sb.toString();
     }
 
     public int verGastoTotal() {
