@@ -31,6 +31,7 @@ public class ReporteDeGastos {
         gastosDeComida = sumarMonto(soloComidas());
     }
 
+    @Deprecated
     public void imprimir() {
         System.out.println(generarInforme());
     }
